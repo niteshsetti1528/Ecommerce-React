@@ -1,11 +1,13 @@
 import HeaderComponent from "../components/HeaderComponent";
 import { GridBannerItems } from "../constants/GridConstants";
+import FooterPage from "./FooterPage";
 
 const HomePage: React.FC = () => {
   return (
     <>
       <HeaderComponent />
       <GridBanner></GridBanner>
+      <FooterPage></FooterPage>
     </>
   );
 };
@@ -14,7 +16,7 @@ const GridBanner: React.FC = () => {
   return (
     <div className="flex mt-16 justify-around overflow-auto">
       {GridBannerItems.map((e) => (
-        <div key={e.id} className="flex flex-col items-center   flex-wrap m-3 ">
+        <div key={e.id} className="flex flex-col items-center flex-wrap m-3 ">
           <img
             src={e.imageSource}
             alt={e.title}
