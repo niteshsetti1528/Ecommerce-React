@@ -7,7 +7,7 @@ const HomePage: React.FC = () => {
   return (
     <>
       <HeaderComponent />
-      <GridBanner />z
+      <GridBanner />
       <Carousel />
       <FooterPage />
     </>
