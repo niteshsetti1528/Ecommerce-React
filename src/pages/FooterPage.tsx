@@ -12,8 +12,8 @@ import GridInterface from "../interface/GridInterface";
 
 const FooterPage: React.FC = () => {
   return (
-    <div className="flex flex-col flex-wrap w-full bg-FooterColor   pt-7 pb-10">
-      <div className="flex flex-row justify-around px-14 mb-11">
+    <div className="flex flex-col  w-full   bg-FooterColor   pt-7 pb-10">
+      <div className="flex flex-row space-x-16 px-14 mb-11">
         <FooterComponent items={FooterAboutItems} title="About" />
 
         <FooterComponent items={FooterHelpItems} title="Help" />
@@ -60,7 +60,7 @@ const AddressComponent: React.FC<{
 
 const PolicyComponent: React.FC<{ items: GridInterface[] }> = ({ items }) => {
   return (
-    <div className="flex space-x-3 justify-around text-white text-14 ml-4 mt-6">
+    <div className="flex space-x-16 text-white text-14 ml-4 mt-6">
       {items.map((item, index) => (
         <div className="flex flex-row  space-x-3" key={index}>
           <img alt={item.title} src={item.imageSource} />
