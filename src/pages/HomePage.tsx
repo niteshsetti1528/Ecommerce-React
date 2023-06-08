@@ -1,3 +1,4 @@
+import Carousel from "../components/CarouselComponent";
 import HeaderComponent from "../components/HeaderComponent";
 import { GridBannerItems } from "../constants/GridConstants";
 import FooterPage from "./FooterPage";
@@ -6,8 +7,9 @@ const HomePage: React.FC = () => {
   return (
     <>
       <HeaderComponent />
-      <GridBanner></GridBanner>
-      <FooterPage></FooterPage>
+      <GridBanner />z
+      <Carousel />
+      <FooterPage />
     </>
   );
 };
