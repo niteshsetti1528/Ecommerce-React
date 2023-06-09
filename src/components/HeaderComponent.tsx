@@ -23,7 +23,7 @@ const HeaderComponent = () => {
       </div>
       <SearchComponent />
 
-      <div className="flex justify-between text-white space-x-11 font-semibold ">
+      <div className="flex justify-between text-white space-x-11 font-semibold">
         <div
           onMouseEnter={() => handleMouseEnter("flipkart")}
           onMouseLeave={handleMouseLeave}
