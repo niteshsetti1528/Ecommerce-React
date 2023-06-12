@@ -26,7 +26,7 @@ const BestPage: React.FC<{ items: ProductInterface[] }> = ({ items }) => {
 
         {items.map((item, index) => (
           <div key={index} className="flex-none">
-            <BestComponent item={item}></BestComponent>
+            <BestComponent item={item} />
           </div>
         ))}
       </div>
