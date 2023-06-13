@@ -6,13 +6,8 @@ import FooterPage from "./FooterPage";
 import StoriesPage from "./StoriesPage";
 
 const HomePage: React.FC = () => {
-  // const onTapHandler = (id: string) =>{
-
-  // }
-
   return (
     <>
-    
       <GridBanner />
       <Carousel />
       <BestPage items={productItems} />

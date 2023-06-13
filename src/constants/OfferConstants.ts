@@ -21,3 +21,7 @@ export const offerItems: AvailableOffersInterface[] = [
     description: "Get extra ₹11901 off (price inclusive of cashback/coupon)",
   },
 ];
+
+
+
+
