@@ -1,7 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import BestComponent from "../components/BestComponent";
 import { ProductInterface } from "../interface/ProductInterface";
 
 const BestPage: React.FC<{ items: ProductInterface[] }> = ({ items }) => {
+  const navigate = useNavigate();
+  const handleClick = (id: string) => {
+    navigate(`/product/${id}`);
+  };
+
   return (
     <div className="w-full border border-yellow mt-6 shadow">
       <div className="flex overflow-x-auto">
@@ -26,7 +32,7 @@ const BestPage: React.FC<{ items: ProductInterface[] }> = ({ items }) => {
 
         {items.map((item, index) => (
           <div key={index} className="flex-none">
-            <BestComponent item={item} />
+            <BestComponent onProductClicked={handleClick} item={item} />
           </div>
         ))}
       </div>
