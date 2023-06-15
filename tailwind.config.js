@@ -12,6 +12,8 @@ module.exports = {
         13: "13px",
         14: "14px",
         16: "16px",
+        18: "18px",
+        28: "28px",
         30: "30px",
       },
       colors: {
@@ -21,6 +23,8 @@ module.exports = {
         black: "#212121",
         blueColor: "#2874F0",
         GreenColor: "#388E3C",
+        lightWhiteColor: "#DBDBDB",
+        orangeColor: "#FB641B",
       },
       width: {
         230: "230px",
@@ -31,6 +35,7 @@ module.exports = {
         361: "361px",
         135: "135px",
         200: "200px",
+        48: "48px",
       },
       padding: {
         25: "25px",

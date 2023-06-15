@@ -4,7 +4,7 @@ import React, { useState } from "react";
 
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
-const HeaderComponent = () => {
+const HeaderComponent: React.FC<{ onClick: () => void }> = ({ onClick }) => {
   const [hoveredElement, setHoveredElement] = useState<string | null>(null);
 
   const handleMouseEnter = (element: string) => {
@@ -17,7 +17,7 @@ const HeaderComponent = () => {
 
   return (
     <div className="fixed top-0 h-14  w-full bg-blue-600 flex items-center space-x-5">
-      <div className="logo ml-52 ">
+      <div className="logo ml-52 " onClick={onClick}>
         <div className=" text-white font-OpenSans text-2xl">FlipKart</div>
         <div className=" text-white text-sm">Explore Plus</div>
       </div>
