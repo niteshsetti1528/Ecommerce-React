@@ -1,19 +1,21 @@
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
-import SignUppage from "./SignupPage";
+import Loginpage from "./LoginPage";
 
-const Loginpage = () => {
-  const [signUp, setSignUp] = useState(false);
-  return signUp ? (
-    <SignUppage />
+const SignUppage = () => {
+  const [login, setLogin] = useState(false);
+  return login ? (
+    <Loginpage />
   ) : (
     <div>
       <div className="flex">
         <div className="bg-blueColor flex flex-col py-11 px-7  space-y-48 ">
           <div className="space-y-3">
-            <div className="text-28 text-white font-bold">Login</div>
+            <div className="text-28 text-white font-bold">
+              Looks like you're new here!
+            </div>
             <div className="text-lightWhiteColor text-18 w-48">
-              Get access to your Orders, Wishlist and Recommendations
+              Sign up with your mobile number to get started
             </div>
           </div>
           <img
@@ -22,10 +24,24 @@ const Loginpage = () => {
           />
         </div>
         <div className="flex flex-col px-2 mt-16 mx-6 mb-5 ">
-          <div>
+          <div className="space-y-4">
             <TextField
               id="standard-basic"
-              label="Enter Email / Mobile Number"
+              label="Enter Username"
+              variant="standard"
+              className="w-full"
+              inputProps={{ color: "grey" }}
+            />
+            <TextField
+              id="standard-basic"
+              label="Enter Mobile Number"
+              variant="standard"
+              className="w-full"
+              inputProps={{ color: "grey" }}
+            />
+            <TextField
+              id="standard-basic"
+              label="Enter Password"
               variant="standard"
               className="w-full"
               inputProps={{ color: "grey" }}
@@ -38,17 +54,17 @@ const Loginpage = () => {
             </p>
             <div className="mt-5">
               <button className="bg-orangeColor w-full h-48 text-white font-bold">
-                Request OTP
+                Submit
               </button>
             </div>
           </div>
-          <div
-            className="flex mt-auto mb-5 justify-center text-blueColor hover:cursor-pointer"
-            onClick={() => {
-              setSignUp(true);
-            }}
-          >
-            New to Flipkart? Create an account
+          <div className="mt-5">
+            <button
+              onClick={() => setLogin(true)}
+              className="bg-white w-full h-48 text-blueColor shadow-sm shadow-white font-bold"
+            >
+              Existing User? Log in
+            </button>
           </div>
         </div>
       </div>
@@ -56,4 +72,4 @@ const Loginpage = () => {
   );
 };
 
-export default Loginpage;
+export default SignUppage;

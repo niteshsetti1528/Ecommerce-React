@@ -6,6 +6,9 @@ module.exports = {
       fontFamily: {
         OpenSans: ["Open Sans", "sans-serif"],
       },
+      boxShadow: {
+        'elevation-5': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+      },
       fontSize: {
         11: "11px",
         12: "12px",
@@ -29,6 +32,8 @@ module.exports = {
       width: {
         230: "230px",
         200: "200px",
+        112: "112px",
+        250: "250px",
       },
       height: {
         23: "10rem",
@@ -36,6 +41,9 @@ module.exports = {
         135: "135px",
         200: "200px",
         48: "48px",
+        112: "112px",
+        30: "30rem",
+        51: "51px",
       },
       padding: {
         25: "25px",

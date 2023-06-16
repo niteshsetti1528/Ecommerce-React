@@ -18,7 +18,7 @@ const BestComponent: React.FC<BestComponentInterface> = ({
   return (
     <div onClick={handleClick}>
       <div className="bg-white box-border cursor-pointer gap-2 py-25 px-15 flex flex-col text-center items-center max-w-100">
-        <img alt={item.name} src={item.imageUrl[0]} className="w-auto h-48" />
+        <img alt={item.name} src={item.imageUrl[0]} className="w-auto h-44" />
         <div className="font-bold text-14 w-52 truncate">{item.name}</div>
         <div className="flex items-center gap-2">
           <div className="text-14 text-GreyColor">{item.offer}</div>

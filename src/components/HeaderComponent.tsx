@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const HeaderComponent: React.FC<{ onClick: () => void }> = ({ onClick }) => {
   const [hoveredElement, setHoveredElement] = useState<string | null>(null);
@@ -13,6 +14,12 @@ const HeaderComponent: React.FC<{ onClick: () => void }> = ({ onClick }) => {
 
   const handleMouseLeave = () => {
     setHoveredElement(null);
+  };
+
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/cart");
   };
 
   return (
@@ -45,7 +52,9 @@ const HeaderComponent: React.FC<{ onClick: () => void }> = ({ onClick }) => {
             className="text-sm hover:cursor-pointer"
           />
         </div>
-        <div>Cart</div>
+        <div onClick={handleClick} className="hover:cursor-pointer">
+          Cart
+        </div>
       </div>
     </div>
   );
