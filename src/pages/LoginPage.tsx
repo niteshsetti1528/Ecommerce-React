@@ -1,10 +1,93 @@
-import TextField from "@mui/material/TextField";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import SignUppage from "./SignupPage";
+import TextFieldComponent from "../components/TextFieldComponent";
+import ButtonComponent from "../components/ButtonComponent";
+import { AppContext } from "../components/AppContext";
+import { FaTimes } from "react-icons/fa";
+import { UseGetUser } from "../hooks/useAuth.hook";
+import { User } from "../interface/UserInterface";
+import ToastComponent from "../components/ToastComponent";
+import { LoginContext } from "../components/LoginProvider";
 
 const Loginpage = () => {
-  const [signUp, setSignUp] = useState(false);
-  return signUp ? (
+  const [state, setState] = useState({
+    signUp: false,
+    openToast: false,
+    toastError: false,
+  });
+
+  const { setOpenState } = useContext(AppContext);
+  const { setLoginState } = useContext(LoginContext);
+
+  const [formData, setFormData] = useState({
+    mobile: "",
+    password: "",
+  });
+
+  const handleLoginInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const updateSignStatus = () =>
+    setState((prevState) => ({ ...prevState, signUp: true }));
+
+  const { data } = UseGetUser();
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const users: User = data?.data.find(
+      (user: User) =>
+        user.phone === formData.mobile && user.password === formData.password
+    );
+
+    if (users) {
+      localStorage.setItem(
+        "userDetails",
+        JSON.stringify({ ...users, isLogged: true })
+      );
+      updateToastStatus(false);
+      setLoginState(true, { ...users, isLogged: true });
+    } else {
+      updateToastStatus(true);
+    }
+  };
+
+  const updateToastStatus = (error: boolean) => {
+    setState((prevState) => ({
+      ...prevState,
+      openToast: true,
+      toastError: error,
+    }));
+  };
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setState((prevState) => ({
+      ...prevState,
+      openToast: false,
+    }));
+    if (!state.toastError) {
+      setOpenState(false);
+    }
+  };
+
+  const handleButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    handleSubmit(event as unknown as FormEvent<HTMLFormElement>);
+  };
+
+  return state.signUp ? (
     <SignUppage />
   ) : (
     <div>
@@ -21,32 +104,63 @@ const Loginpage = () => {
             alt="images"
           />
         </div>
-        <div className="flex flex-col px-2 mt-16 mx-6 mb-5 ">
-          <div>
-            <TextField
-              id="standard-basic"
-              label="Enter Email / Mobile Number"
-              variant="standard"
-              className="w-full"
-              inputProps={{ color: "grey" }}
-            />
 
-            <p className="text-12 mt-10  text-GreyColor">
-              By continuing, you agree to Flipkart's ,
-              <span className="text-blueColor">Terms of Use</span> and{" "}
-              <span className="text-blueColor">Privacy Policy</span>.
-            </p>
-            <div className="mt-5">
-              <button className="bg-orangeColor w-full h-48 text-white font-bold">
-                Request OTP
-              </button>
+        <div className="flex flex-col px-2 mt-5 mx-6 mb-5  ">
+          <div className="space-y-4">
+            <div
+              className="flex justify-end cursor-pointer"
+              onClick={() => setOpenState(false)}
+            >
+              <FaTimes />
             </div>
+            <form id="myForm" onSubmit={handleSubmit} className="space-y-6">
+              <TextFieldComponent
+                inputProps={{
+                  label: "Enter UserMobile",
+                  name: "mobile",
+                  value: formData.mobile,
+                  onChange: handleLoginInputChange,
+                }}
+              />
+              <TextFieldComponent
+                inputProps={{
+                  label: "Enter Password",
+                  type: "password",
+                  name: "password",
+                  value: formData.password,
+                  onChange: handleLoginInputChange,
+                }}
+              />
+              <ToastComponent
+                toastParams={{
+                  open: state.openToast,
+                  message: state.toastError
+                    ? "Invalid Credintials"
+                    : "User Login Successfull",
+                  onClose: handleClose,
+                  severity: state.toastError ? "error" : "success",
+                }}
+              />
+
+              <p className="text-12 mt-10  text-GreyColor">
+                By continuing, you agree to Flipkart's ,
+                <span className="text-blueColor">Terms of Use</span> and{" "}
+                <span className="text-blueColor">Privacy Policy</span>.
+              </p>
+              <div className="mt-5">
+                <ButtonComponent
+                  buttonProps={{
+                    title: "Login",
+                    onClick: () => handleButtonClick,
+                  }}
+                />
+              </div>
+            </form>
           </div>
+
           <div
             className="flex mt-auto mb-5 justify-center text-blueColor hover:cursor-pointer"
-            onClick={() => {
-              setSignUp(true);
-            }}
+            onClick={updateSignStatus}
           >
             New to Flipkart? Create an account
           </div>

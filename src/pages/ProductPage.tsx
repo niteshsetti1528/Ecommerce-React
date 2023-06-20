@@ -1,19 +1,21 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { ProductInterface } from "../interface/ProductInterface";
-import { productItems } from "../constants/ProductConstants";
 import PriceAndOffer from "../components/productComponents/PriceAndOfferComponent";
 import DiscountComponent from "../components/productComponents/DiscountComponent";
 import DescriptionComponent from "../components/productComponents/DescriptionComponent";
 import { offerItems } from "../constants/OfferConstants";
 import { RiPriceTagFill } from "react-icons/ri";
 import ImageListComponent from "../components/productComponents/ImageListComponent";
+import { useGetAllProducts } from "../hooks/useProducts.hook";
 
 const ProductPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
-  const filteredProduct = productItems.find(
-    (product: ProductInterface) => product.id === id
+  const { data } = useGetAllProducts();
+
+  const filteredProduct: ProductInterface = data?.data.find(
+    (product: ProductInterface) => product.id.toString() === id
   );
 
   if (!filteredProduct) {
@@ -21,9 +23,12 @@ const ProductPage: React.FC = () => {
   }
 
   return (
-    <div className="flex container mx-auto mt-28 ">
+    <div className="flex container mx-auto mt-28">
       <div className="max-w mx-auto flex">
-        <ImageListComponent imageList={filteredProduct.imageUrl} />
+        <ImageListComponent
+          imageList={filteredProduct.imageUrl}
+          item={{ ...filteredProduct, quantity: 1 }}
+        />
         <div className="flex flex-col ml-10 w-1/2">
           <div key={id}>
             <h1 className="text-2xl font-bold">{filteredProduct.name}</h1>

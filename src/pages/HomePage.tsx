@@ -1,6 +1,5 @@
 import Carousel from "../components/CarouselComponent";
 import { GridBannerItems } from "../constants/GridConstants";
-import { productItems } from "../constants/ProductConstants";
 import BestPage from "./BestPage";
 import FooterPage from "./FooterPage";
 import StoriesPage from "./StoriesPage";
@@ -9,9 +8,10 @@ const HomePage: React.FC = () => {
   return (
     <>
       <GridBanner />
+
       <Carousel />
-      <BestPage items={productItems} />
-      <BestPage items={productItems} />
+      <BestPage />
+      <BestPage />
       <StoriesPage />
       <FooterPage />
     </>

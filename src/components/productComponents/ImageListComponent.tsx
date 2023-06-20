@@ -1,18 +1,58 @@
 import { useRef, useState } from "react";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import CustomImage from "./ImageComponent";
+import ButtonComponent from "../ButtonComponent";
+import { useSelector } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { useDispatch } from "react-redux";
+import {
+  AppState,
+  addItemToCart,
+  removeItemFromCart,
+  updateCartCount,
+} from "../../redux/cartReducer";
+import { ProductInterface } from "../../interface/ProductInterface";
 
 interface ImageListInterface {
   imageList: string[];
+  item: ProductInterface;
 }
 
-const ImageListComponent: React.FC<ImageListInterface> = ({ imageList }) => {
+const ImageListComponent: React.FC<ImageListInterface> = ({
+  imageList,
+  item,
+}) => {
   const defaultImageIndex = 0;
   const [hoveredImageIndex, setHoveredImageIndex] = useState(defaultImageIndex);
   const listRef = useRef<HTMLDivElement>(null);
 
+  const dispatch = useDispatch();
+
   const handleImageHover = (index: number) => {
     setHoveredImageIndex(index);
+  };
+
+  const cartCount = useSelector((state: AppState) => state.cart);
+  const items = useSelector((state: AppState) => state.items);
+
+  const newItem: ProductInterface = item;
+  const isItemExists = items.some(
+    (existingItem) => existingItem.id === newItem.id
+  );
+
+  const handleButtonClick = () => {
+    if (!isItemExists) {
+      dispatch(addItemToCart(newItem));
+      dispatch(updateCartCount(cartCount + 1));
+      toast.success("Item Added to Cart Successfully");
+    }
+  };
+
+  const removeButtonHandler = () => {
+    dispatch(removeItemFromCart(item.id));
+    toast.info("Item Removed From  Cart Successfully");
   };
 
   const scrollToTop = () => {
@@ -81,14 +121,25 @@ const ImageListComponent: React.FC<ImageListInterface> = ({ imageList }) => {
           </>
         )}
       </div>
-      <CustomImage
-        imageUrl={
-          hoveredImageIndex !== null
-            ? imageList[hoveredImageIndex]
-            : imageList[defaultImageIndex]
-        }
-        className="w-96 h-96 border border-box rounded-lg p-5 flex justify-center items-center"
-      />
+      <div className="flex flex-col">
+        <CustomImage
+          imageUrl={
+            hoveredImageIndex !== null
+              ? imageList[hoveredImageIndex]
+              : imageList[defaultImageIndex]
+          }
+          className="w-96 h-96 border border-box rounded-lg p-5 flex justify-center items-center"
+        />
+        <div className="mt-5">
+          <ButtonComponent
+            buttonProps={{
+              title: isItemExists ? "Remove From Cart" : "Add to Cart",
+              onClick: isItemExists ? removeButtonHandler : handleButtonClick,
+            }}
+          />
+        </div>
+        <ToastContainer />
+      </div>
     </div>
   );
 };

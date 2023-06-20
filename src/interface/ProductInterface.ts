@@ -1,5 +1,5 @@
 export interface ProductInterface {
-  id: string;
+  id: number;
   name: string;
   imageUrl: string[];
   offer: string;
@@ -9,4 +9,6 @@ export interface ProductInterface {
   discPercent: string;
   description: string;
   category: string;
+  isOrderPlaced?: boolean;
+  quantity?: number;
 }

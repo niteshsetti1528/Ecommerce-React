@@ -7,7 +7,7 @@ module.exports = {
         OpenSans: ["Open Sans", "sans-serif"],
       },
       boxShadow: {
-        'elevation-5': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        custom: "0 0 4px 0px rgba(0, 0, 0, 0.1)",
       },
       fontSize: {
         11: "11px",
@@ -18,6 +18,7 @@ module.exports = {
         18: "18px",
         28: "28px",
         30: "30px",
+        15: "15px",
       },
       colors: {
         FooterColor: "#212121",

@@ -1,10 +1,90 @@
-import TextField from "@mui/material/TextField";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import Loginpage from "./LoginPage";
+import ButtonComponent from "../components/ButtonComponent";
+import TextFieldComponent from "../components/TextFieldComponent";
+import ToastComponent from "../components/ToastComponent";
+import { CircularProgress } from "@mui/material";
+import { User } from "../interface/UserInterface";
+import { UseAddUser } from "../hooks/useAuth.hook";
+import { AppContext } from "../components/AppContext";
+import { FaTimes } from "react-icons/fa";
 
 const SignUppage = () => {
-  const [login, setLogin] = useState(false);
-  return login ? (
+  const [state, setState] = useState({
+    login: false,
+    openToast: false,
+  });
+
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    phone: "",
+    password: "",
+  });
+
+  const { setOpenState } = useContext(AppContext);
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const { mutate, isError, isLoading, error } = UseAddUser();
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const user: User = formData;
+
+    mutate({ ...user, name: user.username });
+
+    console.log(`isError:${isError}`);
+
+    setFormData({
+      username: "",
+      email: "",
+      phone: "",
+      password: "",
+    });
+
+    updateToastStatus();
+  };
+
+  const handleButtonClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    handleSubmit(event as unknown as FormEvent<HTMLFormElement>);
+  };
+
+  const updateLoginStatus = () =>
+    setState((prevState) => ({ ...prevState, login: true }));
+
+  const updateToastStatus = () => {
+    setState((prevState) => ({
+      ...prevState,
+      openToast: true,
+    }));
+  };
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setState((prevState) => ({
+      ...prevState,
+      openToast: false,
+    }));
+
+    setOpenState(false);
+  };
+
+  return state.login ? (
     <Loginpage />
   ) : (
     <div>
@@ -23,48 +103,86 @@ const SignUppage = () => {
             alt="images"
           />
         </div>
-        <div className="flex flex-col px-2 mt-16 mx-6 mb-5 ">
-          <div className="space-y-4">
-            <TextField
-              id="standard-basic"
-              label="Enter Username"
-              variant="standard"
-              className="w-full"
-              inputProps={{ color: "grey" }}
+        <div className="flex flex-col px-2 mt-10 mx-6 mb-5 ">
+          <div
+            className="flex justify-end cursor-pointer"
+            onClick={() => setOpenState(false)}
+          >
+            <FaTimes />
+          </div>
+          <form id="myForm" onSubmit={handleSubmit} className="space-y-6">
+            <TextFieldComponent
+              inputProps={{
+                label: "Enter Username",
+                name: "username",
+                value: formData.username,
+                onChange: handleInputChange,
+              }}
             />
-            <TextField
-              id="standard-basic"
-              label="Enter Mobile Number"
-              variant="standard"
-              className="w-full"
-              inputProps={{ color: "grey" }}
+            <TextFieldComponent
+              inputProps={{
+                label: "Enter UserEmail",
+                name: "email",
+                value: formData.email,
+                onChange: handleInputChange,
+              }}
             />
-            <TextField
-              id="standard-basic"
-              label="Enter Password"
-              variant="standard"
-              className="w-full"
-              inputProps={{ color: "grey" }}
+            <TextFieldComponent
+              inputProps={{
+                label: "Enter Mobile Number",
+                name: "phone",
+                value: formData.phone,
+                onChange: handleInputChange,
+              }}
+            />
+            <TextFieldComponent
+              inputProps={{
+                label: "Enter Password",
+                type: "password",
+                name: "password",
+                value: formData.password,
+                onChange: handleInputChange,
+              }}
             />
 
-            <p className="text-12 mt-10  text-GreyColor">
+            <p className="text-12  text-GreyColor">
               By continuing, you agree to Flipkart's ,
               <span className="text-blueColor">Terms of Use</span> and{" "}
               <span className="text-blueColor">Privacy Policy</span>.
             </p>
             <div className="mt-5">
-              <button className="bg-orangeColor w-full h-48 text-white font-bold">
-                Submit
-              </button>
+              {isLoading ? (
+                <div className="flex justify-center items-center">
+                  <CircularProgress />
+                </div>
+              ) : (
+                <ButtonComponent
+                  buttonProps={{
+                    title: "Submit",
+                    onClick: () => handleButtonClick,
+                  }}
+                />
+              )}
+              <ToastComponent
+                toastParams={{
+                  open: state.openToast,
+                  message: isError ? `${error}` : "User SignUp Successfull",
+                  onClose: handleClose,
+                  severity: isError ? "error" : "success",
+                }}
+              />
             </div>
-          </div>
+          </form>
+
           <div className="mt-5">
-            <button
-              onClick={() => setLogin(true)}
-              className="bg-white w-full h-48 text-blueColor shadow-sm shadow-white font-bold"
-            >
-              Existing User? Log in
-            </button>
+            <ButtonComponent
+              buttonProps={{
+                title: "Existing User? Log in",
+                backgroundColor: "white",
+                textColor: "blueColor",
+                onClick: updateLoginStatus,
+              }}
+            />
           </div>
         </div>
       </div>

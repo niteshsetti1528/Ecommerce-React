@@ -1,12 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import BestComponent from "../components/BestComponent";
 import { ProductInterface } from "../interface/ProductInterface";
+import { useGetAllProducts } from "../hooks/useProducts.hook";
+import { CircularProgress } from "@mui/material";
 
-const BestPage: React.FC<{ items: ProductInterface[] }> = ({ items }) => {
+const BestPage: React.FC = () => {
   const navigate = useNavigate();
   const handleClick = (id: string) => {
     navigate(`/product/${id}`);
   };
+
+  const { data, isLoading } = useGetAllProducts();
+
+  const productItems: ProductInterface[] = data?.data;
 
   return (
     <div className="w-full border border-yellow mt-6 shadow">
@@ -30,11 +36,15 @@ const BestPage: React.FC<{ items: ProductInterface[] }> = ({ items }) => {
           />
         </div>
 
-        {items.map((item, index) => (
-          <div key={index} className="flex-none">
-            <BestComponent onProductClicked={handleClick} item={item} />
-          </div>
-        ))}
+        {isLoading ? (
+          <CircularProgress />
+        ) : (
+          productItems.map((item, index) => (
+            <div key={index} className="flex-none">
+              <BestComponent onProductClicked={handleClick} item={item} />
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
