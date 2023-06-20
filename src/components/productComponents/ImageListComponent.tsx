@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import CustomImage from "./ImageComponent";
 import ButtonComponent from "../ButtonComponent";
@@ -14,6 +14,8 @@ import {
   updateCartCount,
 } from "../../redux/cartReducer";
 import { ProductInterface } from "../../interface/ProductInterface";
+import { LoginContext, LoginProvider } from "../LoginProvider";
+import { AppContext } from "../AppContext";
 
 interface ImageListInterface {
   imageList: string[];
@@ -36,6 +38,8 @@ const ImageListComponent: React.FC<ImageListInterface> = ({
 
   const cartCount = useSelector((state: AppState) => state.cart);
   const items = useSelector((state: AppState) => state.items);
+  const { isLogged } = useContext(LoginContext);
+  const { setOpenState } = useContext(AppContext);
 
   const newItem: ProductInterface = item;
   const isItemExists = items.some(
@@ -44,9 +48,13 @@ const ImageListComponent: React.FC<ImageListInterface> = ({
 
   const handleButtonClick = () => {
     if (!isItemExists) {
-      dispatch(addItemToCart(newItem));
-      dispatch(updateCartCount(cartCount + 1));
-      toast.success("Item Added to Cart Successfully");
+      if (isLogged) {
+        dispatch(addItemToCart(newItem));
+        dispatch(updateCartCount(cartCount + 1));
+        toast.success("Item Added to Cart Successfully");
+      } else {
+        setOpenState(true);
+      }
     }
   };
 

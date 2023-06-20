@@ -1,6 +1,6 @@
 import SearchComponent from "./SearchComponent";
 import React, { useContext } from "react";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { useNavigate } from "react-router-dom";
 import { LoginContext } from "./LoginProvider";
@@ -8,6 +8,7 @@ import { Badge, BadgeProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { AppState } from "../redux/cartReducer";
+import { AppContext } from "./AppContext";
 
 const HeaderComponent: React.FC<{
   onClick: () => void;
