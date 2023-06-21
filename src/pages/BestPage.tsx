@@ -11,6 +11,7 @@ const BestPage: React.FC = () => {
   };
 
   const { data, isLoading } = useGetAllProducts();
+  console.log(data, "Products data");
 
   const productItems: ProductInterface[] = data?.data;
 

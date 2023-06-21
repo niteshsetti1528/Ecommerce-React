@@ -12,8 +12,21 @@ const addUser = (user: User) => {
   });
 };
 
+const loginUser = (user: User) => {
+ // console.log(`UD:${JSON.stringify(user)}`);
+  return request({
+    url: "/Users/login",
+    method: "post",
+    data: user,
+  });
+};
+
 export const UseAddUser = () => {
   return useMutation(addUser);
+};
+
+export const UserLogin = () => {
+  return useMutation(loginUser);
 };
 
 export const UseGetUser = () => {

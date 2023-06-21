@@ -4,10 +4,11 @@ import TextFieldComponent from "../components/TextFieldComponent";
 import ButtonComponent from "../components/ButtonComponent";
 import { AppContext } from "../components/AppContext";
 import { FaTimes } from "react-icons/fa";
-import { UseGetUser } from "../hooks/useAuth.hook";
+import { UseGetUser, UserLogin } from "../hooks/useAuth.hook";
 import { User } from "../interface/UserInterface";
 import ToastComponent from "../components/ToastComponent";
 import { LoginContext } from "../components/LoginProvider";
+import { AxiosHeaders, AxiosResponse } from "axios";
 
 const Loginpage = () => {
   const [state, setState] = useState({
@@ -20,7 +21,7 @@ const Loginpage = () => {
   const { setLoginState } = useContext(LoginContext);
 
   const [formData, setFormData] = useState({
-    mobile: "",
+    username: "",
     password: "",
   });
 
@@ -35,25 +36,38 @@ const Loginpage = () => {
   const updateSignStatus = () =>
     setState((prevState) => ({ ...prevState, signUp: true }));
 
-  const { data } = UseGetUser();
+  const { mutate } = UserLogin();
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const users: User = data?.data.find(
-      (user: User) =>
-        user.phone === formData.mobile && user.password === formData.password
-    );
+    const user: User = formData;
 
-    if (users) {
-      localStorage.setItem(
-        "userDetails",
-        JSON.stringify({ ...users, isLogged: true })
-      );
-      updateToastStatus(false);
-      setLoginState(true, { ...users, isLogged: true });
-    } else {
-      updateToastStatus(true);
+    try {
+      mutate(user, {
+        onSuccess: (responseData) => {
+          // Access the user data from responseData
+          const userData = responseData as AxiosResponse;
+
+          // Do something with the user data
+          const data = userData.data as User;
+          const users: boolean =
+            user.username === formData.username &&
+            user.password === formData.password;
+          if (users) {
+            localStorage.setItem(
+              "userDetails",
+              JSON.stringify({ ...data, isLogged: true })
+            );
+            updateToastStatus(false);
+            setLoginState(true, { ...data, isLogged: true });
+          } else {
+            updateToastStatus(true);
+          }
+        },
+      });
+    } catch (error) {
+      console.log(error, "from catch");
     }
   };
 
@@ -116,9 +130,9 @@ const Loginpage = () => {
             <form id="myForm" onSubmit={handleSubmit} className="space-y-6">
               <TextFieldComponent
                 inputProps={{
-                  label: "Enter UserMobile",
-                  name: "mobile",
-                  value: formData.mobile,
+                  label: "Enter Name",
+                  name: "username",
+                  value: formData.username,
                   onChange: handleLoginInputChange,
                 }}
               />

@@ -12,7 +12,7 @@ const BestComponent: React.FC<BestComponentInterface> = ({
   onProductClicked,
 }) => {
   const handleClick = () => {
-    onProductClicked(item.id.toString());
+    onProductClicked(item.id!.toString());
   };
 
   return (

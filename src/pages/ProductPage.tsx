@@ -15,7 +15,7 @@ const ProductPage: React.FC = () => {
   const { data } = useGetAllProducts();
 
   const filteredProduct: ProductInterface = data?.data.find(
-    (product: ProductInterface) => product.id.toString() === id
+    (product: ProductInterface) => product.id!.toString() === id
   );
 
   if (!filteredProduct) {

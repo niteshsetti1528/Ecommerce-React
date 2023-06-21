@@ -7,6 +7,7 @@ import { LoginContext } from "./LoginProvider";
 import { Badge, BadgeProps } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { VscPackage } from "react-icons/vsc";
 import { AppState } from "../redux/cartReducer";
 import { AppContext } from "./AppContext";
 
@@ -21,6 +22,10 @@ const HeaderComponent: React.FC<{
 
   const handleClick = () => {
     navigate("/cart");
+  };
+
+  const handleOrderClick = () => {
+    navigate("/orders");
   };
 
   const StyledBadge = styled(Badge)<BadgeProps>(({ theme }) => ({
@@ -51,6 +56,11 @@ const HeaderComponent: React.FC<{
         <div onClick={handleClick} className="hover:cursor-pointer">
           <StyledBadge badgeContent={cartCount} color="secondary">
             <ShoppingCartIcon />
+          </StyledBadge>
+        </div>
+        <div onClick={handleOrderClick} className="hover:cursor-pointer">
+          <StyledBadge badgeContent={cartCount} color="secondary">
+            <VscPackage size="25px" />
           </StyledBadge>
         </div>
         <div className="tracking-wide	">

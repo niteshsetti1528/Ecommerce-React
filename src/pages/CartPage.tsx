@@ -38,7 +38,7 @@ export default function CartPage() {
                     icon: <Add />,
                     ariaLabel: "add",
                     onTapHandler: () =>
-                      dispatch(incrementItemQuantity(item.id)),
+                      dispatch(incrementItemQuantity(item.id!)),
                   }}
                 />
                 <div className="text-18">{item.quantity}</div>
@@ -47,7 +47,7 @@ export default function CartPage() {
                     icon: <Remove />,
                     ariaLabel: "remove",
                     onTapHandler: () =>
-                      dispatch(decrementItemQuantity(item.id)),
+                      dispatch(decrementItemQuantity(item.id!)),
                   }}
                 />
               </div>
@@ -90,7 +90,7 @@ export default function CartPage() {
                     backgroundColor: "white",
                     textColor: "blueColor",
                     onClick: () => {
-                      dispatch(removeItemFromCart(item.id));
+                      dispatch(removeItemFromCart(item.id!));
                       toast.info("Item Removed From  Cart Successfully");
                     },
                   }}

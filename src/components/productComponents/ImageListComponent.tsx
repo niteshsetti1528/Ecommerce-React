@@ -59,7 +59,7 @@ const ImageListComponent: React.FC<ImageListInterface> = ({
   };
 
   const removeButtonHandler = () => {
-    dispatch(removeItemFromCart(item.id));
+    dispatch(removeItemFromCart(item.id!));
     toast.info("Item Removed From  Cart Successfully");
   };
 
